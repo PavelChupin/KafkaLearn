@@ -1,0 +1,33 @@
+server:
+  port: 8289
+  servlet:
+    context-path: /kafka_send
+
+  jackson:
+    serialization:
+      indent_output: true
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/kontur?serverTimezone=UTC
+    username: root
+    password: 14855887
+  jpa:
+    show-sql: true
+    database: mysql
+    properties:
+      hibernate:
+
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        temp:
+          use_jdbc_metadata_defaults: false
+    open-in-view: false
+  flyway:
+    sql-migration-prefix: V
+    baseline-on-migrate: true
+
+  kafka:
+    consumer:
+      group-id: app.1
