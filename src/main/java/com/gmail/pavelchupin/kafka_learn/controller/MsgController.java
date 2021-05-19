@@ -1,21 +1,26 @@
 package com.gmail.pavelchupin.kafka_learn.controller;
 
+import com.gmail.pavelchupin.kafka_learn.data.Address;
+import com.gmail.pavelchupin.kafka_learn.data.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.kafka.support.SendResult;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path="/api/msg")
 public class MsgController {
 
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private KafkaTemplate<Long, UserDto> kafkaTemplate;
 
-    @PostMapping
-    public void sendOrder(String msgId, String msg){
-        System.out.println("msgId = " + msgId + " msg = " + msg);;
-        kafkaTemplate.send("msg", msgId, msg);
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public void sendOrder(@RequestHeader Long msgId, @RequestBody UserDto msg){
+        System.out.println("key = " + msgId + ", messageText = " + msg);
+        msg.setAddress(new Address("RUS","Msk","Lenina",1l, 1l));
+        ListenableFuture<SendResult<Long, UserDto>> future = kafkaTemplate.send("msg", msgId, msg);
+        future.addCallback(System.out::println, System.err::println);
+        kafkaTemplate.flush();
     }
 }
