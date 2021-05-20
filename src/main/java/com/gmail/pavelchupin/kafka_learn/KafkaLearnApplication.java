@@ -8,13 +8,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 
 @SpringBootApplication
 public class KafkaLearnApplication {
-	/*@KafkaListener(topics="msg")
-	public void msgListener(String msg){
-		System.out.println("Test");
-		System.out.println(msg);
-	}*/
 	public static void main(String[] args) {
 		SpringApplication.run(KafkaLearnApplication.class, args);
 	}
-
 }

@@ -4,7 +4,7 @@ package com.gmail.pavelchupin.kafka_learn.config;
 import com.gmail.pavelchupin.kafka_learn.data.dto.UserDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.LongSerializer;
-import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -18,22 +18,26 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfig {
 
-    private String kafkaServer="localhost:9092";
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String kafkaServer;
 
     @Bean
     public Map<String, Object> producerConfigs() {
-        Map<String, Object> props = new HashMap<>();
+        Map<String, Object> producerProps = new HashMap<>();
         //Set settings for kafka of address server
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
+        producerProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
                 kafkaServer);
-        //Set type for key of message
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+        //Set type serialize for key of message
+        producerProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
                 LongSerializer.class);
-        //Set type for message send
+        //Set type serialize for message send
         //props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+        producerProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
                 JsonSerializer.class);
-        return props;
+        //producerProps.put(JsonSerializer.TYPE_MAPPINGS, "userDto:com.gmail.pavelchupin.kafka_learn.data.dto");
+        //props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
+        //props.put(JsonSerializer.TYPE_MAPPINGS, "userDto:com.gmail.pavelchupin.kafka_learn.data.dto.UserDto");
+        return producerProps;
     }
 
     @Bean
