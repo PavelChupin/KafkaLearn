@@ -3,7 +3,6 @@ package com.gmail.pavelchupin.kafka_learn.config;
 import com.gmail.pavelchupin.kafka_learn.data.dto.UserDto;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.LongDeserializer;
-import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +10,7 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.support.converter.JsonMessageConverter;
-import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
-import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +37,7 @@ public class KafkaConsumerConfig {
         //consumerProps.put(JsonSerializer.TYPE_MAPPINGS, "userDto:com.gmail.pavelchupin.kafka_learn.data.dto.UserDto");
         //consumerProps.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "com.gmail.pavelchupin.kafka_learn.data.dto.UserDto");
         //Доверенные пакеты для десериализации
-        consumerProps.put(JsonDeserializer.TRUSTED_PACKAGES,"com.gmail.pavelchupin.kafka_learn.data.*, java.util.*, java.lang.*");
+        consumerProps.put(JsonDeserializer.TRUSTED_PACKAGES, "com.gmail.pavelchupin.kafka_learn.data.*, java.util.*, java.lang.*");
         return consumerProps;
     }
 

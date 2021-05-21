@@ -18,17 +18,18 @@ public class KafkaLisener {
 //        System.out.println(msg);
 //    }
 
-//    //Получения объектов из сообщений kafka
-    @KafkaListener(topics="msg", containerFactory = "kafkaListenerContainerFactory", groupId = "app.1")
-    public void orderListener(ConsumerRecord<Long, UserDto> record){
+    //Получения объектов из сообщений kafka, можно использовать собирательный тип ConsumerRecord, для полечения разных данных об сообщении
+    // а можно любой интересующий тип самого сообщения.
+    @KafkaListener(topics = "msg", containerFactory = "kafkaListenerContainerFactory", groupId = "app.1")
+    public void orderListener(ConsumerRecord<Long, UserDto> record) {
         System.out.println(record.partition());
         System.out.println(record.key());
         System.out.println(record.value());
     }
 
     @Bean
-    public LoggingErrorHandler errorHandler () {
-        return new LoggingErrorHandler ();
+    public LoggingErrorHandler errorHandler() {
+        return new LoggingErrorHandler();
     }
 
 //    @KafkaListener(topics="msg", containerFactory = "kafkaListenerContainerFactory", groupId = "app.1")
